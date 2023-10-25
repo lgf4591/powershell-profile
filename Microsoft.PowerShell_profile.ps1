@@ -13,13 +13,37 @@
 ### This is the default policy on Windows Server 2012 R2 and above for server Windows. For 
 ### more information about execution policies, run Get-Help about_Execution_Policies.
 
-# Import Terminal Icons
+# Import Terminal Icons and z
 Import-Module -Name Terminal-Icons
+Import-Module Z
+
+#PSReadLine
+Import-Module PSReadLine
+Set-PSReadLineOption -PredictionViewstyle Listview
+Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadlineKeyHandler -Key Tab -Function Complete
+Set-PSReadLineKeyHandler -Key "Ctrl+d" -Function MenuComplete
+Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+# Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+
 
 # Find out if the current user identity is elevated (has admin rights)
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+function setproxy{
+    $env:all_proxy="socks5://127.0.0.1:10808"
+}
+
+function unsetproxy{
+    $env:unsetproxy=""
+}
+
 
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
@@ -205,6 +229,9 @@ function pkill($name) {
 function pgrep($name) {
     Get-Process $name
 }
+function whereis ($command){
+	Get-Command -Name $command -ErrorAction SilentlyContinue | Select-object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
 
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.
@@ -220,4 +247,10 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 
 ## Final Line to set prompt
-oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
+# oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
+# oh-my-posh init pwsh --config 'C:\Users\lgf\AppData\Local\Programs\oh-my-posh\themes\kushal.omp.json' | Invoke-Expression
+oh-my-posh init pwsh --config "$env:LOCALAPPDATA\Programs\oh-my-posh\themes\cobalt2.omp.json" | Invoke-Expression
+# oh-my-posh init pwsh --config "$env:LOCALAPPDATA\Programs\oh-my-posh\themes\kushal.omp.json" | Invoke-Expression
+
+
+
