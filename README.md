@@ -8,6 +8,7 @@ Execute the following command in an elevated PowerShell window to install the Po
 
 ```
 irm "https://github.com/ChrisTitusTech/powershell-profile/raw/main/setup.ps1" | iex
+irm "https://github.com/lgf4591/powershell-profile/raw/main/setup.ps1" | iex
 ```
 
 ## 🛠️ Fix the Missing Font

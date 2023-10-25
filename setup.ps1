@@ -101,9 +101,11 @@ else {
 # Choco install
 #
 if (CommandIsExisted "choco") {
+    Write-Host "chocolatey has been installed!!!"
     # choco upgrade chocolatey -y
     Start-Process powershell -Verb runAs -ArgumentList "choco upgrade chocolatey"
 } else {
+    Write-Host "install chocolatey now!!!"
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 }
 
@@ -111,10 +113,23 @@ if (CommandIsExisted "choco") {
 # Scoop install
 #
 if (CommandIsExisted "scoop") {
+    Write-Host "oh-my-posh has been installed!!!"
     scoop update
 } else {
+    Write-Host "install scoop now!!!"
     Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
     irm get.scoop.sh | iex # or Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+}
+
+
+# zoxide install
+#
+if (CommandIsExisted "zoxide") {
+    Write-Host "zoxide has been installed!!!"
+    winget upgrade ajeetdsouza.zoxide -s winget
+} else {
+    Write-Host "install zoxide now!!!"
+    winget install ajeetdsouza.zoxide
 }
 
 
@@ -122,10 +137,12 @@ if (CommandIsExisted "scoop") {
 # oh-my-posh Install : https://ohmyposh.dev/docs/installation/windows
 #
 if (CommandIsExisted "oh-my-posh") {
+    Write-Host "oh-my-posh has been installed!!!"
     winget upgrade JanDeDobbeleer.OhMyPosh -s winget
     # scoop update oh-my-posh
     # Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
 } else {
+    Write-Host "install oh-my-posh now!!!"
     winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
     # winget install JanDeDobbeleer.OhMyPosh -s winget
     # scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
@@ -142,6 +159,7 @@ if (CommandIsExisted "oh-my-posh") {
 # starship Install : https://starship.rs/zh-cn/guide/
 #
 if (CommandIsExisted "starship") {
+    Write-Host "oh-my-posh has been installed!!!"
     winget upgrade Starship.Starship -s winget
     # scoop update oh-my-posh
     # Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
